@@ -61,3 +61,5 @@ yarn-debug.log*
 
 # RSpec
 .rspec_status
+# Ignore master key for decrypting credentials and more.
+/config/master.key
