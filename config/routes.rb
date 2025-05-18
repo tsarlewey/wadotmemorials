@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :map_entries, only: [:new, :create, :index]
+  get "map_entries/new"
+  get "map_entries/create"
+  get "map_entries/index"
   get "maps/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,0 +1,42 @@
+<h1>New Memorial Entry</h1>
+
+<%= form_with(model: @map_entry) do |form| %>
+  <% if @map_entry.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@map_entry.errors.count, "error") %> prohibited this entry from being saved:</h2>
+      <ul>
+        <% @map_entry.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :latitude, style: "display: block" %>
+    <%= form.text_field :latitude %>
+  </div>
+
+  <div>
+    <%= form.label :longitude, style: "display: block" %>
+    <%= form.text_field :longitude %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to "Back to map", maps_index_path %>
+</div>
