@@ -10,6 +10,9 @@
 # Ignore DirEnv
 /.direnv/*
 
+# Ignore node_modules
+/node_modules
+
 # Ignore bundler config.
 /.bundle
 
