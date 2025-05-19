@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :map_entries, only: [:new, :create, :index]
+  resources :map_entries, only: [ :new, :create, :index, :destroy ]
   get "map_entries/new"
   get "map_entries/create"
   get "map_entries/index"

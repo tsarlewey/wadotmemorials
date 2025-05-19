@@ -20,6 +20,16 @@ class MapEntriesController < ApplicationController
     end
   end
 
+  def destroy
+    @map_entry = MapEntry.find(params[:id])
+    @map_entry.destroy
+
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: "Entry was successfully deleted." }
+      format.json { render json: { success: true }, status: :ok }
+    end
+  end
+
 
   private
 
