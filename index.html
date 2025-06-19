@@ -9,19 +9,7 @@
         .tooltip { background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         #homeBtn { position: absolute; bottom: 10px; left: 10px; z-index: 1000; padding: 10px; background: rgba(36,125,201,255); color: white; border: 2px solid black; border-radius: 4px; cursor: pointer; }
         #contactBtn { position: absolute; bottom: 10px; right: 10px; z-index: 1000; padding: 10px; background: rgba(36,125,201,255); color: white; border: 2px solid black; border-radius: 4px; cursor: pointer; }
-        .transition {
-            transition-property: opacity;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .duration-300 {
-            transition-duration: 300ms;
-        }
-        .ease-in {
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-        }
-        .ease-out {
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-        }
+
         #overlay { 
             position: fixed; 
             top: 0; 
@@ -49,13 +37,11 @@
 </head>
 <body>
     <div id="map"></div>
-    <button id="homeBtn" onclick="map.flyTo([47.5, -120.5], 7, {duration: 1.5})">Return to Map Overview</button>
+    <div x-data="mapApp()">
+        <button id="homeBtn" @click="returnHome()">Return to Map Overview</button>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const map = L.map('map').setView([47.5, -120.5], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        
-        let activePopup = null;
+
 
         const data = [
   {
@@ -2190,48 +2176,70 @@
   }
         ];
 
-        data.forEach((memorial, index) => {
-            if (memorial.Coordinates && memorial.Coordinates.includes(',')) {
-                const [lat, lng] = memorial.Coordinates.split(',').map(Number);
-                if (!isNaN(lat) && !isNaN(lng)) {
-                    const marker = L.marker([lat, lng]).addTo(map);
-                    
-                    // Render on hover
-                    marker.bindTooltip(`
-                        <div class="tooltip">
-                            <strong>${memorial['Victim Name']}</strong><br>
-                            ${memorial['Sign Type']}<br>
-                        </div>
-                    `, {permanent: false, direction: 'top'});
-                    
-                    marker.bindPopup(`
-                        <div class="tooltip">
-                            <strong>${memorial['Victim Name']}</strong><br>
-                            ${memorial['Sign Type']}<br>
-                        </div>
-                    `);
-                    
-                    marker.on('click', () => {
-                        if (activePopup) activePopup.closePopup();
-                        marker.openPopup();
-                        activePopup = marker;
-                        map.flyTo([lat, lng], 15, {duration: 1.5});
-                        
-                        setTimeout(() => {
-                            if (activePopup === marker) {
-                                marker.closePopup();
-                                activePopup = null;
+        function mapApp() {
+            return {
+                map: null,
+                contactOpen: false,
+                
+                init() {
+                    this.map = L.map('map').setView([47.5, -120.5], 7);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+                    this.loadMarkers();
+                },
+                
+                returnHome() {
+                    this.map.flyTo([47.5, -120.5], 7, {duration: 0.5});
+                },
+                
+                loadMarkers() {
+                    data.forEach(memorial => {
+                        if (memorial.Coordinates?.includes(',')) {
+                            const [lat, lng] = memorial.Coordinates.split(',').map(Number);
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                const marker = L.marker([lat, lng]).addTo(this.map);
+                                
+                                marker.bindTooltip(`
+                                    <div class="tooltip">
+                                        <strong>${memorial['Victim Name']}</strong><br>
+                                        ${memorial['Sign Type']}<br>
+                                    </div>
+                                `, {permanent: false, direction: 'top'});
+                                
+                                                marker.on('click', () => {
+                                    // Store the target coordinates for later use
+                                    const targetLat = lat;
+                                    const targetLng = lng;
+                                    
+                                    // Start the fly animation
+                                    this.map.flyTo([targetLat, targetLng], 15, {duration: 1.5});
+                                    
+                                    // Use setTimeout instead of moveend event
+                                    setTimeout(() => {
+                                        const popup = L.popup({
+                                            closeOnClick: false,
+                                            autoClose: false,
+                                            closeButton: true
+                                        })
+                                        .setLatLng([targetLat, targetLng])
+                                        .setContent(`
+                                            <div class="tooltip">
+                                                <strong>${memorial['Victim Name']}</strong><br>
+                                                ${memorial['Sign Type']}<br>
+                                            </div>
+                                        `)
+                                        .openOn(this.map);
+                                    }, 1600); // Wait slightly longer than the animation duration
+                                });
                             }
-                        }, 60000);
+                        }
                     });
                 }
             }
-        });
+        }
     </script>
-    <div x-data="{ open: false }">
-        <button id="contactBtn" @click="open = !open">Contact</button>
-        <div id="overlay" x-show="open" @click="open = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
-        <div id="contactPopup" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+        <button id="contactBtn" @click="contactOpen = !contactOpen">Contact</button>
+        <div id="overlay" x-show="contactOpen" @click="contactOpen = false" x-transition.opacity></div>
+        <div id="contactPopup" x-show="contactOpen" x-transition.opacity>
             <strong>Contact me for anything related to this data set and website.</strong><br>
             <strong>Email:</strong> jt@jtlewey.com
         </div>
