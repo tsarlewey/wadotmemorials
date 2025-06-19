@@ -188,6 +188,7 @@
                 },
                 
                 returnHome() {
+                    this.map.closePopup();
                     this.map.flyTo([47.5, -120.5], 7, {duration: 0.5});
                 },
                 
