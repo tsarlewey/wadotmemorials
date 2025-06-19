@@ -4,11 +4,36 @@
     <title>WA Memorial Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style>
-        #map { height: 100vh; }
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+        }
+        #map { 
+            height: 100%; 
+            width: 100%; 
+            position: absolute; 
+            top: 0; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+        }
         .tooltip { background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         #homeBtn { position: absolute; bottom: 10px; left: 10px; z-index: 1000; padding: 10px; background: rgba(36,125,201,255); color: white; border: 2px solid black; border-radius: 4px; cursor: pointer; }
         #contactBtn { position: absolute; bottom: 10px; right: 10px; z-index: 1000; padding: 10px; background: rgba(36,125,201,255); color: white; border: 2px solid black; border-radius: 4px; cursor: pointer; }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .leaflet-popup-content {
+                max-width: 260px;
+            }
+            #homeBtn, #contactBtn {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
 
         #overlay { 
             position: fixed; 
@@ -2199,7 +2224,26 @@
                 contactOpen: false,
                 
                 init() {
-                    this.map = L.map('map').setView([47.5, -120.5], 7);
+                    // Set initial zoom based on screen size
+                    const isMobile = window.innerWidth <= 768;
+                    const initialZoom = isMobile ? 6 : 7;
+                    
+                    this.map = L.map('map', {
+                        zoomControl: false,  // Remove default zoom control
+                        attributionControl: false // Remove attribution for cleaner mobile view
+                    }).setView([47.5, -120.5], initialZoom);
+                    
+                    // Add zoom control to top-right for better mobile access
+                    L.control.zoom({
+                        position: 'topright'
+                    }).addTo(this.map);
+                    
+                    // Add attribution in bottom-right
+                    L.control.attribution({
+                        position: 'bottomright',
+                        prefix: false
+                    }).addAttribution('© OpenStreetMap contributors').addTo(this.map);
+                    
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
                     this.loadMarkers();
                 },
@@ -2245,7 +2289,7 @@
                                                     <p><strong>Safety Message:</strong> ${memorial['Sign Type']}</p>
                                                     <p><strong>Memorial Plaque:</strong><br> 
                                                        ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
-                                                    <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+memorial', '_blank')">Learn More</button>
+                                                    <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+state+memorial', '_blank')">Learn More</button>
                                                 </div>
                                             </div>
                                         `)
