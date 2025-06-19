@@ -248,6 +248,8 @@
                                                     <p><strong>Memorial Plaque:</strong><br> 
                                                        ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
                                                     <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+state+memorial', '_blank')">Learn More</button>
+                                                    <button class="learn-more-btn" onclick="document.querySelector('#homeBtn').click()">Return to Map Overview</button>
+                                                    <button class="learn-more-btn" onclick="document.querySelector('#contactBtn').click()">Contact</button>
                                                 </div>
                                             </div>
                                         `)
