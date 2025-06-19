@@ -75,15 +75,190 @@
             margin-top: 10px;
             cursor: pointer;
         }
+        /* Custom marker styles */
+        .marker-icon {
+            background-color: #ff4040;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .visited-marker-icon {
+            background-color: #808080;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
     <div x-data="mapApp()">
         <button id="homeBtn" @click="returnHome()">Return to Map Overview</button>
+        <button id="contactBtn" @click="contactOpen = !contactOpen">Contact</button>
+        <div id="overlay" x-show="contactOpen" @click="contactOpen = false" x-transition.opacity></div>
+        <div id="contactPopup" x-show="contactOpen" x-transition.opacity>
+            <strong>Contact me for anything related to this data set and website.</strong><br>
+            <strong>Email:</strong> jt@jtlewey.com
+        </div>
+    </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-
+        function mapApp() {
+            return {
+                map: null,
+                contactOpen: false,
+                visitedMarkers: [],
+                
+                init() {
+                    // Set initial zoom based on screen size
+                    const isMobile = window.innerWidth <= 768;
+                    const initialZoom = isMobile ? 6 : 7;
+                    
+                    // Load visited markers from cookies
+                    this.loadVisitedMarkers();
+                    
+                    this.map = L.map('map', {
+                        zoomControl: false,  // Remove default zoom control
+                        attributionControl: false // Remove attribution for cleaner mobile view
+                    }).setView([47.5, -120.5], initialZoom);
+                    
+                    // Add zoom control to top-right for better mobile access
+                    L.control.zoom({
+                        position: 'topright'
+                    }).addTo(this.map);
+                    
+                    // Add attribution in bottom-right
+                    L.control.attribution({
+                        position: 'bottomright',
+                        prefix: false
+                    }).addAttribution('© OpenStreetMap contributors').addTo(this.map);
+                    
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+                    this.loadMarkers();
+                },
+                
+                // Load visited markers from cookies
+                loadVisitedMarkers() {
+                    const cookieValue = this.getCookie('visitedMemorials');
+                    if (cookieValue) {
+                        try {
+                            this.visitedMarkers = JSON.parse(cookieValue);
+                        } catch (e) {
+                            this.visitedMarkers = [];
+                        }
+                    }
+                },
+                
+                // Save visited markers to cookies
+                saveVisitedMarkers() {
+                    this.setCookie('visitedMemorials', JSON.stringify(this.visitedMarkers), 365);
+                },
+                
+                // Check if a marker has been visited
+                isVisited(name) {
+                    return this.visitedMarkers.includes(name);
+                },
+                
+                // Mark a memorial as visited
+                markAsVisited(name) {
+                    if (!this.isVisited(name)) {
+                        this.visitedMarkers.push(name);
+                        this.saveVisitedMarkers();
+                    }
+                },
+                
+                // Cookie helper functions
+                setCookie(name, value, days) {
+                    let expires = '';
+                    if (days) {
+                        const date = new Date();
+                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                        expires = '; expires=' + date.toUTCString();
+                    }
+                    document.cookie = name + '=' + (value || '') + expires + '; path=/';
+                },
+                
+                getCookie(name) {
+                    const nameEQ = name + '=';
+                    const ca = document.cookie.split(';');
+                    for (let i = 0; i < ca.length; i++) {
+                        let c = ca[i];
+                        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                    }
+                    return null;
+                },
+                
+                returnHome() {
+                    this.map.flyTo([47.5, -120.5], 7, {duration: 0.5});
+                },
+                
+                loadMarkers() {
+                    data.forEach(memorial => {
+                        if (memorial.Coordinates?.includes(',')) {
+                            const [lat, lng] = memorial.Coordinates.split(',').map(Number);
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                const victimName = memorial['Victim Name'];
+                                const isVisited = this.isVisited(victimName);
+                                
+                                // Create custom icon based on visited status
+                                const markerIcon = L.divIcon({
+                                    className: isVisited ? 'visited-marker-icon' : 'marker-icon',
+                                    iconSize: [12, 12],
+                                    iconAnchor: [6, 6]
+                                });
+                                
+                                const marker = L.marker([lat, lng], {
+                                    icon: markerIcon
+                                }).addTo(this.map);
+                                
+                                marker.bindTooltip(`
+                                    <div class="tooltip">
+                                        <strong>${memorial['Victim Name']}</strong><br>
+                                        ${memorial['Sign Type']}<br>
+                                    </div>
+                                `, {permanent: false, direction: 'top'});
+                                
+                                marker.on('click', () => {
+                                    // Mark this memorial as visited
+                                    this.markAsVisited(victimName);
+                                    
+                                    // Update marker appearance
+                                    marker.setIcon(L.divIcon({
+                                        className: 'visited-marker-icon',
+                                        iconSize: [12, 12],
+                                        iconAnchor: [6, 6]
+                                    }));
+                                    
+                                    // Fly to the marker
+                                    this.map.flyTo([lat, lng], 15, {duration: 1.5});
+                                    
+                                    // Show popup after animation completes
+                                    setTimeout(() => {
+                                        const popup = L.popup({
+                                            closeOnClick: false,
+                                            autoClose: false,
+                                            closeButton: true
+                                        })
+                                        .setLatLng([lat, lng])
+                                        .setContent(`
+                                            <div class="tooltip">
+                                                <h3>${memorial['Victim Name']}</h3>
+                                                <div class="memorial-info">
+                                                    <p><strong>Safety Message:</strong> ${memorial['Sign Type']}</p>
+                                                    <p><strong>Memorial Plaque:</strong><br> 
+                                                       ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
+                                                    <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+state+memorial', '_blank')">Learn More</button>
+                                                </div>
+                                            </div>
+                                        `)
+                                        .openOn(this.map);
+                                    }, 1600);
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
 
         const data = [
   {
@@ -2216,99 +2391,7 @@
     "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
     "Sponsored By Plaque": "SPONSORED BY \nFRIENDS AND FAMILY OF JACQUELINE CAMPOS"
   }
-        ];
-
-        function mapApp() {
-            return {
-                map: null,
-                contactOpen: false,
-                
-                init() {
-                    // Set initial zoom based on screen size
-                    const isMobile = window.innerWidth <= 768;
-                    const initialZoom = isMobile ? 6 : 7;
-                    
-                    this.map = L.map('map', {
-                        zoomControl: false,  // Remove default zoom control
-                        attributionControl: false // Remove attribution for cleaner mobile view
-                    }).setView([47.5, -120.5], initialZoom);
-                    
-                    // Add zoom control to top-right for better mobile access
-                    L.control.zoom({
-                        position: 'topright'
-                    }).addTo(this.map);
-                    
-                    // Add attribution in bottom-right
-                    L.control.attribution({
-                        position: 'bottomright',
-                        prefix: false
-                    }).addAttribution('© OpenStreetMap contributors').addTo(this.map);
-                    
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-                    this.loadMarkers();
-                },
-                
-                returnHome() {
-                    this.map.flyTo([47.5, -120.5], 7, {duration: 0.5});
-                },
-                
-                loadMarkers() {
-                    data.forEach(memorial => {
-                        if (memorial.Coordinates?.includes(',')) {
-                            const [lat, lng] = memorial.Coordinates.split(',').map(Number);
-                            if (!isNaN(lat) && !isNaN(lng)) {
-                                const marker = L.marker([lat, lng]).addTo(this.map);
-                                
-                                marker.bindTooltip(`
-                                    <div class="tooltip">
-                                        <strong>${memorial['Victim Name']}</strong><br>
-                                        ${memorial['Sign Type']}<br>
-                                    </div>
-                                `, {permanent: false, direction: 'top'});
-                                
-                                                marker.on('click', () => {
-                                    // Store the target coordinates for later use
-                                    const targetLat = lat;
-                                    const targetLng = lng;
-                                    
-                                    // Start the fly animation
-                                    this.map.flyTo([targetLat, targetLng], 15, {duration: 1.5});
-                                    
-                                    // Use setTimeout instead of moveend event
-                                    setTimeout(() => {
-                                        const popup = L.popup({
-                                            closeOnClick: false,
-                                            autoClose: false,
-                                            closeButton: true
-                                        })
-                                        .setLatLng([targetLat, targetLng])
-                                        .setContent(`
-                                            <div class="tooltip">
-                                                <h3>${memorial['Victim Name']}</h3>
-                                                <div class="memorial-info">
-                                                    <p><strong>Safety Message:</strong> ${memorial['Sign Type']}</p>
-                                                    <p><strong>Memorial Plaque:</strong><br> 
-                                                       ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
-                                                    <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+state+memorial', '_blank')">Learn More</button>
-                                                </div>
-                                            </div>
-                                        `)
-                                        .openOn(this.map);
-                                    }, 1600); // Wait slightly longer than the animation duration
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        }
+];
     </script>
-        <button id="contactBtn" @click="contactOpen = !contactOpen">Contact</button>
-        <div id="overlay" x-show="contactOpen" @click="contactOpen = false" x-transition.opacity></div>
-        <div id="contactPopup" x-show="contactOpen" x-transition.opacity>
-            <strong>Contact me for anything related to this data set and website.</strong><br>
-            <strong>Email:</strong> jt@jtlewey.com
-        </div>
-    </div>
 </body>
 </html>
