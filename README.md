@@ -17,7 +17,7 @@ Built with:
 
 ## Deployment
 
-This site is deployed directly with netlify.
+This site is deployed directly with netlify. 
 
 ## Data Source
 
