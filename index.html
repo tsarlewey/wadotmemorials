@@ -33,6 +33,23 @@
             text-align: center;
             font-size: 18px;
         }
+        .tooltip h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .memorial-info {
+            text-align: left;
+        }
+        .learn-more-btn {
+            background: rgba(36,125,201,255);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -2223,8 +2240,13 @@
                                         .setLatLng([targetLat, targetLng])
                                         .setContent(`
                                             <div class="tooltip">
-                                                <strong>${memorial['Victim Name']}</strong><br>
-                                                ${memorial['Sign Type']}<br>
+                                                <h3>${memorial['Victim Name']}</h3>
+                                                <div class="memorial-info">
+                                                    <p><strong>Safety Message:</strong> ${memorial['Sign Type']}</p>
+                                                    <p><strong>Memorial Plaque:</strong><br> 
+                                                       ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
+                                                    <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+memorial', '_blank')">Learn More</button>
+                                                </div>
                                             </div>
                                         `)
                                         .openOn(this.map);
