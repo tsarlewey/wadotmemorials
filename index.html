@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WA Memorial Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; }
+        .tooltip { background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([47.5, -120.5], 7);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        const data = [
+  {
+    "Victim Name": "Parker Lang",
+    "Coordinates": "47.844677918338114,-122.21590310456703",
+    "Sign Type": "PLEASE WATCH FOR PEDESTRIANS",
+    "Sponsored By Plaque": "IN MEMORY OF \nPARKER LANG"
+  },
+  {
+    "Victim Name": "Elisa Kaye",
+    "Coordinates": "47.865750869318106,-121.79410814171143",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nELISA KAYE"
+  },
+  {
+    "Victim Name": "Christopher Legidakes Jr",
+    "Coordinates": "47.71570930245883,-121.27265493925363",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nCHRIS LEGIDAKES JR"
+  },
+  {
+    "Victim Name": "Rebecca Powelson",
+    "Coordinates": "47.98522004083927,-117.34958582697243",
+    "Sign Type": "RECKLESS DRIVING COSTS LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nREBECCA POWELSON"
+  },
+  {
+    "Victim Name": "Esther Loranger",
+    "Coordinates": "47.81943100216159,-117.34694418170626",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nESTHER LORANGER"
+  },
+  {
+    "Victim Name": "Thomas Turner",
+    "Coordinates": "47.83446329903378,-121.64849091451181",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTHOMAS TUNER"
+  },
+  {
+    "Victim Name": "Donna Moore &          Robert Moore",
+    "Coordinates": "47.85538532151187,-121.89170305270453",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDONNA MOORE\nROBERT MOORE"
+  },
+  {
+    "Victim Name": "Benito M.Flores",
+    "Coordinates": "47.65773013554946,-117.98932614779065",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBENITO M. FLORES"
+  },
+  {
+    "Victim Name": "Lt. Bruce Ramsey",
+    "Coordinates": "47.868504745978186,-121.77325251936948",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nLT BRUCE RAMSEY"
+  },
+  {
+    "Victim Name": "Aaron \u2018Buzz\u2019 Aiken Jr. ",
+    "Coordinates": "47.71930960211828,-121.3873031055605",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \n\"BEEZ\" AARON AIKEN JR"
+  },
+  {
+    "Victim Name": "Jill Wood-Spanjer",
+    "Coordinates": "47.508235133323424,-120.43281814036003",
+    "Sign Type": "PLEASE WATCH FOR BICYCLISTS",
+    "Sponsored By Plaque": "IN MEMORY OF \nJILL WOOD-SPANJER"
+  },
+  {
+    "Victim Name": "Brittany Diann Marie Diksen",
+    "Coordinates": "47.65029146750075,-120.14838045721872",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRITTANY DIANN\nMARIE DIKSEN"
+  },
+  {
+    "Victim Name": "Dick O. Withee",
+    "Coordinates": "47.911246747715474,-122.05606250540166",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDICK O WITHEE"
+  },
+  {
+    "Victim Name": "Matthew Eves",
+    "Coordinates": "47.51366330561104,-120.2972411976626",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMATTHEW EVES"
+  },
+  {
+    "Victim Name": "Paul F Noe",
+    "Coordinates": "47.8893865689833,-122.02721182641363",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nPAUL F NOE"
+  },
+  {
+    "Victim Name": "Jason D Hoover",
+    "Coordinates": "47.5226964064854,-120.28704980098713",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON D HOOVER"
+  },
+  {
+    "Victim Name": "June Marie Mathews",
+    "Coordinates": "47.935342587478274,-122.0705265600204",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUNE MARIE MATHEWS"
+  },
+  {
+    "Victim Name": "Kris Schroeder",
+    "Coordinates": "47.75650524514238,-120.73947698713488",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKRIS SCHROEDER"
+  },
+  {
+    "Victim Name": "Sean Michael Meyer",
+    "Coordinates": "47.75531817104357,-120.73867341620925",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSEAN MICHAEL MEYER"
+  },
+  {
+    "Victim Name": "David Jay Cole",
+    "Coordinates": "48.014250040724285,-117.34964454605101",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDAVID JAY COLE"
+  },
+  {
+    "Victim Name": "Telesha Shaver",
+    "Coordinates": "47.77757642590493,-117.3675323059676",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTELESHA SHAVER"
+  },
+  {
+    "Victim Name": "The Davis Family\nSponsorship",
+    "Coordinates": "47.77363486899066,-120.96771798935279",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "SPONSORED BY THE \nDAVIS FAMILY"
+  },
+  {
+    "Victim Name": "Rodney Wilhelm & Nikki Wilhelm",
+    "Coordinates": "47.775485691724626,-122.65094530097859",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": " IN MEMORY OF \nRODNEY WILHELM\nNIKKI WILHELM"
+  },
+  {
+    "Victim Name": "Vanita M. Brooks",
+    "Coordinates": "47.778796086555424,-122.65106235175472",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nVANITA M. BROOKS"
+  },
+  {
+    "Victim Name": "David Allen Kahlvik",
+    "Coordinates": "47.466717802843334,-122.80630555936503",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES ",
+    "Sponsored By Plaque": "IN MEMORY OF \nDAVID ALLEN KAHLVIK"
+  },
+  {
+    "Victim Name": "Tyler Jankunas       Daniel Tedder           Bryan Blackburn",
+    "Coordinates": "47.39105364324575,-122.8267591272731",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTYLER JANKUNAS\nDANIEL TEDDER\nBRYAN J. BLACKBURN"
+  },
+  {
+    "Victim Name": "Meghan O'Leary",
+    "Coordinates": "47.22571300909495,-123.07172654222303",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nOLEARY FAMILY"
+  },
+  {
+    "Victim Name": "Jennifer L. Thompson",
+    "Coordinates": "47.28281483209557,-122.95607460255508",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJENNIFER L THOMPSON"
+  },
+  {
+    "Victim Name": "The Card Family\nSponsorship",
+    "Coordinates": "47.33169392636357,-122.88338639123359",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nCARD FAMILY"
+  },
+  {
+    "Victim Name": "Gary D. Sunderland",
+    "Coordinates": "47.524033590729196,-122.71067706586324",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nGARY D SUNDERLAND"
+  },
+  {
+    "Victim Name": "Sheryl L. Anderson",
+    "Coordinates": "47.62402029412306,-122.71086029558693",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHERYL L ANDERSON"
+  },
+  {
+    "Victim Name": "River Jordan Most",
+    "Coordinates": "46.15262862893653,-123.28804229203239",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nRIVER JORDAN MOST"
+  },
+  {
+    "Victim Name": "Doug Edward Moss",
+    "Coordinates": "46.187421178096756,-123.08839721118125",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDOUG MOSS"
+  },
+  {
+    "Victim Name": "Darlene Kay Benson & Kourtney Ann Benson",
+    "Coordinates": "46.18958672299286,-123.17349162153747",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nDARLENE KAY BENSON\nKOURTNEY ANN BENSON"
+  },
+  {
+    "Victim Name": "Luis A Reyes Garcia",
+    "Coordinates": "47.16601741432915,-122.47664554416879",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nLUIS \"KORA\" REYES GARCIA"
+  },
+  {
+    "Victim Name": "Gabriela Bemis",
+    "Coordinates": "47.300047410289174,-122.30286098188543",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGABRIELA BEMIS"
+  },
+  {
+    "Victim Name": "Esteban Lynn Cortes",
+    "Coordinates": "47.6320956286679,-122.3241667774866",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nESTEBAN LYNN CORTES"
+  },
+  {
+    "Victim Name": "Johnathan Bishop",
+    "Coordinates": "47.1631138587464,-122.47958502718477",
+    "Sign Type": "RECKLESS DRIVING COSTS LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOHNATHAN BISHOP"
+  },
+  {
+    "Victim Name": "Angelica Roberto Campos",
+    "Coordinates": "47.12102060498741,-122.55268160299894",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nANGELICA ROBERTO CAMPOS"
+  },
+  {
+    "Victim Name": "Rick Stoker              Karen Stoker                       Art Anderson",
+    "Coordinates": "46.24313084354196,-122.8855440270538",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nRICK STOKER\nKAREN STOKER\nART ANDERSON"
+  },
+  {
+    "Victim Name": "Carlos Vidal Black",
+    "Coordinates": "47.129590895503554,-122.53815420371811",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nCARLOS VIDAL BLACK"
+  },
+  {
+    "Victim Name": "Wilfrido Sarmiento &   Mila Sarmiento",
+    "Coordinates": "47.95457802899882,-122.19931530135149",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nWILLIE AND MILA SARMIENTO"
+  },
+  {
+    "Victim Name": "Grayson C. Yazzie",
+    "Coordinates": "48.08160129409626,-122.18467307218062",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nGRAYSON C. YAZZIE "
+  },
+  {
+    "Victim Name": "Alejandro Lopez - Gallardo",
+    "Coordinates": "48.24399357446111,-122.24567448264143",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nALEJANDRO LOPEZ GALLARDO"
+  },
+  {
+    "Victim Name": "Sandy Harmon",
+    "Coordinates": "47.2027030145959,-122.46124535524517",
+    "Sign Type": "SECURE YOUR LOAD ",
+    "Sponsored By Plaque": "IN MEMORY OF \nSANDY HARMON"
+  },
+  {
+    "Victim Name": "Curt Darrel Miller",
+    "Coordinates": "48.3353335041191,-122.33406945727968",
+    "Sign Type": "STAY ALERT DRIVE SAFE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nCURT DARREL MILLER"
+  },
+  {
+    "Victim Name": "Jody M Bagnariol and Elisabeth Rudolph",
+    "Coordinates": "46.54392302331055,-122.87649528345383",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJODY M BAGNARIOL\nELISABETH RUDOLPH"
+  },
+  {
+    "Victim Name": "Eddie Cross",
+    "Coordinates": "47.0644389948213,-122.75416340235273",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nEDDIE CROSS"
+  },
+  {
+    "Victim Name": "Jennifer Leigh Barry",
+    "Coordinates": "46.959670807512424,-122.93540321935917",
+    "Sign Type": "PLEASE DON'T SPEED ",
+    "Sponsored By Plaque": "IN MEMORY OF\n JENNIFER LEIGH BARRY"
+  },
+  {
+    "Victim Name": "Joseph \"Joe\" Bartkowski",
+    "Coordinates": "47.306398380130325,-122.30071430089524",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOSEPH \"JOE\" BARTKOWSKI"
+  },
+  {
+    "Victim Name": "Nora Stamnes",
+    "Coordinates": "47.35764887900759,-122.2962538889391",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nNORA STAMNES"
+  },
+  {
+    "Victim Name": "Valerie Cartillar",
+    "Coordinates": "47.59795059247344,-122.3206913314752",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nVALERIE CARTILLAR"
+  },
+  {
+    "Victim Name": "Scott Glover",
+    "Coordinates": "47.49368284838289,-122.26702134879123",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSCOTT A GLOVER"
+  },
+  {
+    "Victim Name": "Darren J. Hering",
+    "Coordinates": "48.347169004727824,-122.33591758939414",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "SPONSORED BY THE \nDARREN J HERING FAMILY EMPLOYEES OF WAVE BROADBAND"
+  },
+  {
+    "Victim Name": "Jeffrey O Bundy",
+    "Coordinates": "47.993944551160986,-122.17865985024073",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJEFFREY O'BRYAN BUNDY"
+  },
+  {
+    "Victim Name": "William C. Vey",
+    "Coordinates": "47.15017404124747,-122.4989040429724",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\n WILLIAM C. VEY"
+  },
+  {
+    "Victim Name": "Travis Humbyrd",
+    "Coordinates": "47.130786588171524,-122.536268859483",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTRAVIS HUMBYRD"
+  },
+  {
+    "Victim Name": "Jeremy Joseph Cole",
+    "Coordinates": "47.034957198578084,-122.88803032349739",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFAMILY OF JEREMY JOSEPH COLE"
+  },
+  {
+    "Victim Name": "Heather Lee Meadows",
+    "Coordinates": "47.38777850122016,-122.29012318474642",
+    "Sign Type": "PLEASE DON\u2019T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nHEATHER LEE MEADOWS"
+  },
+  {
+    "Victim Name": "Curtis E. Lively",
+    "Coordinates": "48.459091213403966,-122.3413867293962",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCURTIS E LIVELY"
+  },
+  {
+    "Victim Name": "Doren W. McKinney",
+    "Coordinates": "48.15895482481099,-122.1898522426702",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDOREN W MCKINNEY"
+  },
+  {
+    "Victim Name": "Mark Alan Wilson",
+    "Coordinates": "47.23011188157501,-122.44956634347497",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMARK ALLEN WILSON"
+  },
+  {
+    "Victim Name": "Katie Jessup",
+    "Coordinates": "47.23652983446646,-122.42244224376466",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nKATIE JESSUP"
+  },
+  {
+    "Victim Name": "Danny Asrari",
+    "Coordinates": "47.241056636742826,-122.34447546542854",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDANNY ASRARI"
+  },
+  {
+    "Victim Name": "Michael Dean Malone",
+    "Coordinates": "47.5550425684751,-122.3186945968962",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL DEAN MALONE"
+  },
+  {
+    "Victim Name": "Janiel Zanetti",
+    "Coordinates": "47.091043872736066,-122.63114688228504",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJANIEL ZANETTI"
+  },
+  {
+    "Victim Name": "Bill Johnson",
+    "Coordinates": "48.417319552163654,-122.33282756303393",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBILL JOHNSON"
+  },
+  {
+    "Victim Name": "Nora Stamnes",
+    "Coordinates": "47.35764887900759,-122.2962538889391",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nNORA STAMNES"
+  },
+  {
+    "Victim Name": "Michael Weilert",
+    "Coordinates": "47.134855022669676,-122.43462843455269",
+    "Sign Type": "PLEASE WATCH FOR BICYCLISTS ",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICAHEL WEILERT"
+  },
+  {
+    "Victim Name": "Cassandra Clay & Shane Bender",
+    "Coordinates": "47.11179813197604,-122.43472136934889",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCASSANDRA CLAY\nSHANE BENDER"
+  },
+  {
+    "Victim Name": "Gary Russell",
+    "Coordinates": "46.97920353752025,-122.35790750897876",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nGARY RUSSELL"
+  },
+  {
+    "Victim Name": "Garrick Brandt",
+    "Coordinates": "47.86874937682317,-122.10985708122905",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nGARRICK BRANDT"
+  },
+  {
+    "Victim Name": "Blake Vernon - Messer",
+    "Coordinates": "48.34706925285934,-122.20319715823508",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nBLAKE MESSER"
+  },
+  {
+    "Victim Name": "Perrigoue, Robert L. ",
+    "Coordinates": "48.22380351014788,-122.14256647637089",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES ",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT L. PERRIGOUE"
+  },
+  {
+    "Victim Name": "Jason Aaron Swanson",
+    "Coordinates": "48.53384227636192,-122.22546441714485",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON A SWANSON"
+  },
+  {
+    "Victim Name": "Jim Arneson",
+    "Coordinates": "48.20633375267519,-122.1300322767516",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJIM ARNESON"
+  },
+  {
+    "Victim Name": "Tom & Hilda Wood                                                          Brad & Melissa Agerup",
+    "Coordinates": "48.090310259628,-122.11175167506217",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTOM WOOD\nHILDA WOOD  \nBRAD AGERUP\nMELISSA AGERUP"
+  },
+  {
+    "Victim Name": "Matthew Russell Rubio",
+    "Coordinates": "48.12719882795432,-122.11261145041087",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nMATTHEW RUSSELL RUBIO"
+  },
+  {
+    "Victim Name": "James A. Bridgeman",
+    "Coordinates": "47.80105829715335,-122.14332727773017",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAMES A BRIDGEMAN"
+  },
+  {
+    "Victim Name": "Paul Rodgers",
+    "Coordinates": "47.15353742690183,-120.80581451794085",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nPAUL RODGERS"
+  },
+  {
+    "Victim Name": "Freddy Blondel",
+    "Coordinates": "48.543866384391094,-122.40420756759453",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nFREDDY BLONDEL"
+  },
+  {
+    "Victim Name": "Michael Farmer Jr",
+    "Coordinates": "46.18444008527679,-118.97753627382743",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL FARMER JR"
+  },
+  {
+    "Victim Name": "Joseph Trudeau",
+    "Coordinates": "46.53408432539985,-121.90892132992997",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \n\"GRASSHOPPER\" JOE TRUDEAU"
+  },
+  {
+    "Victim Name": "Stacy Moore",
+    "Coordinates": "46.81108594771407,-123.05749484857145",
+    "Sign Type": "PLEASE DON'T TEXT AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSTACY MOORE"
+  },
+  {
+    "Victim Name": "Reagan Dieter",
+    "Coordinates": "46.49967937607685,-117.77396950254338",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nREAGAN DIETER"
+  },
+  {
+    "Victim Name": "Sam Williams",
+    "Coordinates": "46.53514200375483,-122.54909827471805",
+    "Sign Type": "PLEASE WATCH FOR HIGHWAY WORKERS",
+    "Sponsored By Plaque": "IN MEMORY OF\n SAM WILLIAMS"
+  },
+  {
+    "Victim Name": "Natalie McLaughlin",
+    "Coordinates": "46.825135203699084,-123.12884715342291",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nNATALIE MCLAUGHLIN"
+  },
+  {
+    "Victim Name": "John Cortinas",
+    "Coordinates": "46.07086148191367,-118.80077186306609",
+    "Sign Type": "PLEASE DON\"T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE\n CORTINAS FAMILY"
+  },
+  {
+    "Victim Name": "Ashley Rene Jones-Davis",
+    "Coordinates": "46.815198487386084,-123.06473268479817",
+    "Sign Type": "PLEASE DON'T TEXT AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nASHLEY RENE JONES-DAVIS"
+  },
+  {
+    "Victim Name": "Shannon Elliot",
+    "Coordinates": "46.08414041461262,-118.27867751977631",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHANNON ELLIOT"
+  },
+  {
+    "Victim Name": "Deputy Lee Birdsell, Officer Eugene Jennings",
+    "Coordinates": "46.46826488790817,-117.67409502260087",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nDEPUTY LEE BIRDSILL\nOFFICE EUGENE JENNINGS"
+  },
+  {
+    "Victim Name": "Cleo Gibson",
+    "Coordinates": "46.53391167697969,-121.89140823290528",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE                           ",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFRIENDS OF CLEO GIBSON"
+  },
+  {
+    "Victim Name": "Ty, Ashley and Sue Johns",
+    "Coordinates": "46.07246841974616,-118.78851460317705",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTY JOHNS\nASHLEY JOHNS\nSUE JOHNS"
+  },
+  {
+    "Victim Name": "The Cantu Family\nSponsorship",
+    "Coordinates": "46.721019788802494,-120.81660549817501",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nCANTU FAMILY"
+  },
+  {
+    "Victim Name": "Michael Farmer, Jr.",
+    "Coordinates": "46.18433730302135,-118.97738810895892",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL FARMER JR"
+  },
+  {
+    "Victim Name": "Jose Tony Tijerina",
+    "Coordinates": "46.12315880967866,-118.92977100870102",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOSE TONY TIJERINA"
+  },
+  {
+    "Victim Name": "The Cortinas Family ",
+    "Coordinates": "46.07086148191367,-118.80077186306609",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nCORTINAS FAMILY"
+  },
+  {
+    "Victim Name": "Neva Holmes",
+    "Coordinates": "46.055415469898804,-118.45382049186816",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nNEVA HOLMES"
+  },
+  {
+    "Victim Name": "Ryan M Smith",
+    "Coordinates": "45.60759253213821,-122.5689134066124",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nRYAN M. SMITH"
+  },
+  {
+    "Victim Name": "Richard \"Red\" King",
+    "Coordinates": "45.57383789296839,-122.33263265289564",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES ",
+    "Sponsored By Plaque": "IN MEMORY OF \nRICHARD \"RED\" KING"
+  },
+  {
+    "Victim Name": "Eugene Ralph Perez",
+    "Coordinates": "45.68441840276097,-121.89768412149121",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nEUGENE R PEREZ"
+  },
+  {
+    "Victim Name": "Darin Thorp",
+    "Coordinates": "45.608361054014935,-122.57252228858883",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nDARIN THORP"
+  },
+  {
+    "Victim Name": "Krissy Shaddix & Jessica Blanck",
+    "Coordinates": "45.618520900763606,-122.63884811253432",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKRISSY SHADDIX\nJESSICA BLANCK"
+  },
+  {
+    "Victim Name": "Tracy Lively",
+    "Coordinates": "45.580466717022844,-122.38008553543602",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTRACY LIVELY"
+  },
+  {
+    "Victim Name": "Alicia Ann Perrin",
+    "Coordinates": "47.32600543231667,-122.59465463909397",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nALICIA ANN PERRIN"
+  },
+  {
+    "Victim Name": "Delyle E. \"Mac\" Machacek",
+    "Coordinates": "47.524829443358335,-122.69607389976879",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \n\"MAC\" MACHACEK"
+  },
+  {
+    "Victim Name": "Verla Jean",
+    "Coordinates": "47.293347946994174,-122.56573775416643",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nVERLA JEAN"
+  },
+  {
+    "Victim Name": "Steven Lennon",
+    "Coordinates": "47.42470685865759,-122.62352029499971",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSTEVEN LENNON"
+  },
+  {
+    "Victim Name": "Sherwood E. Forbes",
+    "Coordinates": "47.423255532918496,-122.62339988947389",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHERWOOD E. FORBES"
+  },
+  {
+    "Victim Name": "Jett Johnson",
+    "Coordinates": "47.55975770544868,-119.45831975897512",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJETT JOHNSON"
+  },
+  {
+    "Victim Name": "Terri Jo Vannoy",
+    "Coordinates": "47.242427818909654,-119.43089759944046",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTERRI JO VANNOY"
+  },
+  {
+    "Victim Name": "Daniel Vazquez-Lopez",
+    "Coordinates": "47.21721702712399,-119.39188429255846",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nDANIEL VAZQUEZ-LOPEZ"
+  },
+  {
+    "Victim Name": "Christian Schuermann& Aschlie Schuermann",
+    "Coordinates": "47.22422592116621,-119.40292997296504",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nCHRISTIAN SCHUERMANN\nASCHLIE SCHUERMANN"
+  },
+  {
+    "Victim Name": "Savanna Mae Schooler",
+    "Coordinates": "47.34926793918472,-119.47587772705562",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\nSAVANNA MAE SCHOOLER"
+  },
+  {
+    "Victim Name": "Midred A. Kreider",
+    "Coordinates": "47.56992257865848,-119.44738253860042",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMID A KREIDER"
+  },
+  {
+    "Victim Name": "Shanna Kay Hernandez",
+    "Coordinates": "47.13171368955109,-119.25676378884103",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHANNA KAY HERNANDEZ"
+  },
+  {
+    "Victim Name": "Jeremy E.  Morrison",
+    "Coordinates": "47.264190724496956,-119.45938325148738",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJEREMY E MORRISON"
+  },
+  {
+    "Victim Name": "Karl R. Ortiz",
+    "Coordinates": "47.321179805310166,-122.16329227897653",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKARL R. ORTIZ"
+  },
+  {
+    "Victim Name": "JD Kinley",
+    "Coordinates": "47.33373066493054,-122.15238722759203",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJD KINLEY"
+  },
+  {
+    "Victim Name": "Leah Vinup-Anheluk",
+    "Coordinates": "47.40099382243656,-122.04460166122688",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nLEAH VINUP-ANHELUK FAMILY"
+  },
+  {
+    "Victim Name": "Wayne Jake Baardson",
+    "Coordinates": "47.349866809048734,-122.13502633431847",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nWAYNE \"JAKE\" BAARDSON"
+  },
+  {
+    "Victim Name": "Freda Anne Sallee",
+    "Coordinates": "48.35466097463864,-120.03890190251414",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nFREDA ANNE SALLEE"
+  },
+  {
+    "Victim Name": "Patrica Gunsolley & Wayne Gunsolley",
+    "Coordinates": "48.499570983453765,-122.2615982483777",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nWAYNE & PATTIE"
+  },
+  {
+    "Victim Name": "Jaushon Collett ",
+    "Coordinates": "48.41739522751362,-122.63603855642343",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAUSHON A. COLLETT"
+  },
+  {
+    "Victim Name": "Randy Metzger",
+    "Coordinates": "48.615340205177496,-118.56789061247105",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nRANDY METZGER"
+  },
+  {
+    "Victim Name": "Michael Lee Lewis",
+    "Coordinates": "48.26735534132924,-122.67277944299005",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL LEE LEWIS"
+  },
+  {
+    "Victim Name": "Fred Bryan",
+    "Coordinates": "48.244187391304266,-122.7140717463205",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nFRED BRYAN"
+  },
+  {
+    "Victim Name": "Karan Lins Bakke",
+    "Coordinates": "48.52588173208335,-121.93462164888277",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKAREN LINS BAKKE"
+  },
+  {
+    "Victim Name": "Justin K. Jepson",
+    "Coordinates": "46.73816511916513,-119.51831877377161",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUSTIN K. JEPSON"
+  },
+  {
+    "Victim Name": "Grace Vickers",
+    "Coordinates": "46.738105413312894,-119.53791523374962",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGRACE VICKERS"
+  },
+  {
+    "Victim Name": "Ryan Holwegner",
+    "Coordinates": "46.54956752815831,-120.33953442595127",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nRYAN HOLWEGNER"
+  },
+  {
+    "Victim Name": "Morgan Cope",
+    "Coordinates": "46.81280301267945,-117.66101796783066",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nMORGAN COPE"
+  },
+  {
+    "Victim Name": "John Johnson & Kris Johnson",
+    "Coordinates": "46.899108198948475,-119.65336916516148",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOHN JOHNSON I\nKRIS JOHNSON"
+  },
+  {
+    "Victim Name": "Kylie Hammington",
+    "Coordinates": "46.7944360791952,-118.65884159964847",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFAMILY OF KYLIE HAMMINGTON"
+  },
+  {
+    "Victim Name": "Bill Martinson & Mary Martinson",
+    "Coordinates": "46.89893902009666,-119.75678860215757",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBILL MARTINSON\nMARY MARTINSON"
+  },
+  {
+    "Victim Name": "Beau Anthony-Sean Pierre",
+    "Coordinates": "47.65085053901998,-117.23984924146365",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nBEAU ANTHONY-SEAN PIERRE"
+  },
+  {
+    "Victim Name": "Valarie Daly",
+    "Coordinates": "47.68330582347618,-117.23968741248069",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nVAL DALY"
+  },
+  {
+    "Victim Name": "Ian William Taskila",
+    "Coordinates": "47.646065990029186,-117.23984171313816",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nIAN WILLIAM TASKILA"
+  },
+  {
+    "Victim Name": "Gertrude Peone & Georgia Peone Jordan",
+    "Coordinates": "47.41080977236881,-119.39605202983242",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nGETRUDE PEONE \nGEORGIA PEONE JORDAN                      "
+  },
+  {
+    "Victim Name": "Luis A. Rodriguez",
+    "Coordinates": "47.23422836047396,-119.77963828391135",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nLUIS A RODRIGUEZ"
+  },
+  {
+    "Victim Name": "Taylor Blackburn, Jody McAffee, Kyle Hartley",
+    "Coordinates": "47.4183245255644,-119.3572170578596",
+    "Sign Type": "PLEASE DON'T SPEED",
+    "Sponsored By Plaque": "IN MEMORY OF \nTAYLOR BACKBURN\nJODY MCAFFE\nKYLE HARTLEY"
+  },
+  {
+    "Victim Name": "Jacob D. Delosreyes",
+    "Coordinates": "47.39162241620769,-120.2741279637986",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAKE D DELOSREYES"
+  },
+  {
+    "Victim Name": "Mary Velasquez",
+    "Coordinates": "47.35195389770132,-119.51915737907024",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMARY VELASQUEZ"
+  },
+  {
+    "Victim Name": "The Jesse Flores Family Sponsorship",
+    "Coordinates": "47.39454558785124,-120.28200598057215",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nJESSE FLORES FAMILY"
+  },
+  {
+    "Victim Name": "Taj S. Sohi",
+    "Coordinates": "46.253754674140495,-119.46440672319996",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTAJ S. SOHI"
+  },
+  {
+    "Victim Name": "Peter Ortega Sr.",
+    "Coordinates": "46.26011233382134,-119.88737620432835",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nPETER ORTEGA, SR"
+  },
+  {
+    "Victim Name": "Gloria Bautista",
+    "Coordinates": "46.328772218606076,-120.0885955699218",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGLORIA BAUTISTA"
+  },
+  {
+    "Victim Name": "BJ (John) Miller ",
+    "Coordinates": "46.21681552715821,-119.74706262783525",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBJ (JOHN) MILLER"
+  },
+  {
+    "Victim Name": "Dennis Dale Click",
+    "Coordinates": "46.171655952267685,-119.20870924761297",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDENNIS DALE CLICK"
+  },
+  {
+    "Victim Name": "Wayne Ray Sams",
+    "Coordinates": "46.867099621743506,-120.41129014677243",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nWAYNE RAY SAMS"
+  },
+  {
+    "Victim Name": "Ronald Morrison",
+    "Coordinates": "47.65225162431546,-117.40619145655793",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nRONALD MORRISON"
+  },
+  {
+    "Victim Name": "Mitchell Brady",
+    "Coordinates": "47.49132631460677,-121.80232948720256",
+    "Sign Type": "PLEASE DRIVE SAFEFLY",
+    "Sponsored By Plaque": "IN MEMORY OF \nMITCHELL D BRADY"
+  },
+  {
+    "Victim Name": "Merle R. Nolan",
+    "Coordinates": "47.16162620628954,-120.85431653882475",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nMERLE R NOLAN"
+  },
+  {
+    "Victim Name": "Shelby Denae Niemela",
+    "Coordinates": "47.185636158307965,-120.91052658625244",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFAMILY OF SHELBY DENAE NIEMELA"
+  },
+  {
+    "Victim Name": "Dillon K. O'Brien",
+    "Coordinates": "47.42604097154211,-121.41366123615329",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDILLON K. O'BRIEN"
+  },
+  {
+    "Victim Name": "Randy Ray Haynes",
+    "Coordinates": "47.15951796880257,-120.83951864931217",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nRANDY RAY HAYNES"
+  },
+  {
+    "Victim Name": "Robb Long",
+    "Coordinates": "47.65672528780492,-117.32194796066051",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBB LONG"
+  },
+  {
+    "Victim Name": "Harold Schott",
+    "Coordinates": "47.18405605979793,-121.0072156782879",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nHAROLD SCHOTT"
+  },
+  {
+    "Victim Name": "Erin Klotz",
+    "Coordinates": "47.48326341049993,-121.7916604677472",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nERIN KLOTZ"
+  },
+  {
+    "Victim Name": "Antonia Lee Keller",
+    "Coordinates": "48.02944183687084,-122.09000838530193",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nANTONIA LEE KELLER"
+  },
+  {
+    "Victim Name": "Drake Remlinger",
+    "Coordinates": "45.74771168366916,-121.51653583847181",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDRAKE REMLINGER"
+  },
+  {
+    "Victim Name": "Alfred Anaya",
+    "Coordinates": "46.43769844557868,-120.42429299121311",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nALFRED ANAYA"
+  },
+  {
+    "Victim Name": "Wayne E Beebe",
+    "Coordinates": "47.46682595672147,-120.65870182221235",
+    "Sign Type": "PLEASE RIDE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nWAYNE E BEEBE"
+  },
+  {
+    "Victim Name": "Carmela Cuellar",
+    "Coordinates": "47.6995719432186,-120.19357503046803",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nCARMELA CUELLAR"
+  },
+  {
+    "Victim Name": "Phil King",
+    "Coordinates": "45.69742549012561,-120.81563187263005",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nPHIL KING"
+  },
+  {
+    "Victim Name": "Bernarda Flores & Rebecca Flores",
+    "Coordinates": "47.54551040042893,-120.61476648341214",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBERNARDA FLORES\nREBECA FLORES"
+  },
+  {
+    "Victim Name": "Seth Laurence Diaz",
+    "Coordinates": "47.3320578816852,-120.60191947040268",
+    "Sign Type": "PLASE WATCH FOR MOTORCYCLISTS",
+    "Sponsored By Plaque": "IN MEMORY OF \nSETH LAURENCE DIAZ"
+  },
+  {
+    "Victim Name": "Monica Sauceda",
+    "Coordinates": "46.27741052171545,-120.3854811051087",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nMONICA SAUCEDA"
+  },
+  {
+    "Victim Name": "Joseph W. Marshall",
+    "Coordinates": "47.961058382464586,-119.87612226442516",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOESPH W MARSHALL"
+  },
+  {
+    "Victim Name": "Brett M. Miller",
+    "Coordinates": "47.454391102455666,-120.65607570765161",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRETT M. MILLER"
+  },
+  {
+    "Victim Name": "Alane Wilson",
+    "Coordinates": "45.7944077871066,-120.81780226399405",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nALANE WILSON"
+  },
+  {
+    "Victim Name": "Lise Palmer & Faith Palmer",
+    "Coordinates": "47.836030873535144,-120.06138376296411",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF\nLISE MARIE PALMER\nFAITH MARIE PALMER"
+  },
+  {
+    "Victim Name": "McKenzie Clennon",
+    "Coordinates": "47.76176462374769,-120.19368215139767",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\n MCKENZIE CLENNON"
+  },
+  {
+    "Victim Name": "Jason Sutherland & Dan Adamson",
+    "Coordinates": "47.53161925974092,-120.30211369460126",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON SUTHERLAND\nDAN ADAMSON"
+  },
+  {
+    "Victim Name": "Pacheco Family & Hector Hernandez, Antonio Nana",
+    "Coordinates": "47.53025142615203,-120.30330088462823",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF THE \nPACHECO FAMILY AND HECTOR HERNANDEZ\n ANTONIA NANA"
+  },
+  {
+    "Victim Name": "Matthew Raymond",
+    "Coordinates": "47.8591085859981,-122.28666359174109",
+    "Sign Type": "PLEASE WATCH FOR PEDESTRIANS",
+    "Sponsored By Plaque": "IN MEMORY OF \nMATTHEW RAYMOND"
+  },
+  {
+    "Victim Name": "Devon Leon Phipps",
+    "Coordinates": "47.82949690747883,-122.30788768580747",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nDEVON LEON PHIPPS "
+  },
+  {
+    "Victim Name": "Agustin Hermosillo Torres",
+    "Coordinates": "47.17578191376114,-123.88934453048282",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF\nAGUSTIN HERMOSILLO TORRES"
+  },
+  {
+    "Victim Name": "Jeffrey Thomas Jr",
+    "Coordinates": "47.73664484253125,-122.88168182690727",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJEFFREY THOMAS JR"
+  },
+  {
+    "Victim Name": "Buzzy Pettis",
+    "Coordinates": "47.029534665641926,-123.9213659296996",
+    "Sign Type": "PLEASE DRIVE SOBER",
+    "Sponsored By Plaque": "IN MEMORY OF \nBUZZY PETTIS"
+  },
+  {
+    "Victim Name": "Juan Carlos Porcel Jr.",
+    "Coordinates": "48.04117247972922,-123.03078887671491",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUAN C PORCEL JR"
+  },
+  {
+    "Victim Name": "Brooke Bedinger",
+    "Coordinates": "48.10294432077925,-123.35428761149501",
+    "Sign Type": "PLEASE RIDE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBROOKE BEDINGER"
+  },
+  {
+    "Victim Name": "Aaron Z. Cochran",
+    "Coordinates": "48.083896564399524,-123.732595728269",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nAARON Z COCHRAN"
+  },
+  {
+    "Victim Name": "Kenneth Hyatt",
+    "Coordinates": "48.09825672957859,-123.5376385767398",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nKEN \"BADGER\" HYATT"
+  },
+  {
+    "Victim Name": "Steven Biss",
+    "Coordinates": "48.10575143802598,-123.47297960658663",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFRIENDS OF STEVEN BISS"
+  },
+  {
+    "Victim Name": "Joshua Beck ",
+    "Coordinates": "48.10485610721677,-123.37249727865868",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOSHUA BECK"
+  },
+  {
+    "Victim Name": "Kassi Hansen & Naomi Price",
+    "Coordinates": "47.98052743982345,-124.40220511395003",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKASSI HANSEN\nNAOMI PRICE"
+  },
+  {
+    "Victim Name": "Ian Rolley & Jeremy Rolley &  J.J. Brewer",
+    "Coordinates": "48.10587882535071,-123.34983490172314",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nIAN ROLLEY\nJEREMY ROLLEY\nJJ BREWER"
+  },
+  {
+    "Victim Name": "Andrew Lance",
+    "Coordinates": "47.04659168300734,-122.9937702125738",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nANDREW LANCE"
+  },
+  {
+    "Victim Name": "Kevin D. McKinney",
+    "Coordinates": "46.97606385574335,-123.85157353528892",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKEVIN D MCKINNEY"
+  },
+  {
+    "Victim Name": "Thomas R. Warren",
+    "Coordinates": "48.049937315008975,-122.96853075333802",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTHOMAS R WARREN"
+  },
+  {
+    "Victim Name": "Michael A. Turco",
+    "Coordinates": "48.09917796943559,-123.3332028646841",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL A TURCO"
+  },
+  {
+    "Victim Name": "Dale Buck",
+    "Coordinates": "46.39554625655447,-124.05307452380949",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDALE BUCK"
+  },
+  {
+    "Victim Name": "Stephen L. Godbolt",
+    "Coordinates": "47.80953094997011,-122.53897321350328",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSTEPHEN L GODBOLT"
+  },
+  {
+    "Victim Name": "Glen D. Williams",
+    "Coordinates": "47.80821109495262,-122.51731899482587",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGLENN D WILLIAMS"
+  },
+  {
+    "Victim Name": "Meghann Price-Shipe",
+    "Coordinates": "47.15905447148106,-124.18858030033908",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMEAGHANN PRICE-SHIPE"
+  },
+  {
+    "Victim Name": "Joy Strickland",
+    "Coordinates": "46.983319789777006,-123.95981313079713",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOY STRICKLAND"
+  },
+  {
+    "Victim Name": "Riley Conard",
+    "Coordinates": "48.50077345197533,-122.35737820813281",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\nRILEY CONARD"
+  },
+  {
+    "Victim Name": "Frank McClenny & Emily McClenny",
+    "Coordinates": "46.214124728740316,-118.39249151307347",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF\n FRANK MCCLENNY\nEMILY MCCLENNY"
+  },
+  {
+    "Victim Name": "Frank McClenny & Emily McClenny",
+    "Coordinates": "46.214124728740316,-118.39249151307347",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nFRANK MCCLENNY \nEMILY MCCLENNY"
+  },
+  {
+    "Victim Name": "Irina Jasiukonis",
+    "Coordinates": "45.74771168366916,-121.51653583847181",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nIRINA JASIUKONIS"
+  },
+  {
+    "Victim Name": "Tavian Renee' Beasley",
+    "Coordinates": "47.88333294133878,-119.09026675054885",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTAVIAN RENEE'"
+  },
+  {
+    "Victim Name": "Patrick Morin III",
+    "Coordinates": "48.048025784685635,-118.98088508220796",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nPATRICK MORIN III"
+  },
+  {
+    "Victim Name": "Junior Dick and Shannon Nason",
+    "Coordinates": "48.044212726804616,-118.9738857564372",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUNIOR DICK\nSHANNON NASON"
+  },
+  {
+    "Victim Name": "Diana Lee Adolph",
+    "Coordinates": "48.38018075643631,-119.41172097493325",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDIANA LEE ADOLPH"
+  },
+  {
+    "Victim Name": "Junior Dick & Shannon Nason",
+    "Coordinates": "48.04429290046847,-118.9740645223655",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUNIOR DICK\nSHANNON NASON"
+  },
+  {
+    "Victim Name": "Jason E. Pinard",
+    "Coordinates": "47.50482623635153,-122.5168487743973",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON E. PINARD"
+  },
+  {
+    "Victim Name": "Katie Phillips",
+    "Coordinates": "47.504981718362785,-122.58851721286139",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nKATIE PHILLIPS"
+  },
+  {
+    "Victim Name": "Tera Brummitt",
+    "Coordinates": "46.97965463252277,-122.29793245739185",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTERA BRUMMITT"
+  },
+  {
+    "Victim Name": "Brandon Duprie",
+    "Coordinates": "47.08186238810523,-122.18584888198052",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRANDON DUPRIE"
+  },
+  {
+    "Victim Name": "Terann Hoptowit & Micah McDaniel",
+    "Coordinates": "47.26511963994269,-122.14289131008476",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTERRANN HOPTOWIT MICAH MCDANIEL JR"
+  },
+  {
+    "Victim Name": "Clifford Price",
+    "Coordinates": "47.21015130861187,-122.04661052457605",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCLIFFORD PRICE"
+  },
+  {
+    "Victim Name": "Makyela Kyela Knaus",
+    "Coordinates": "47.21019717992022,-122.07496401019289",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMAKYELA KNAUS"
+  },
+  {
+    "Victim Name": "Sonny Frick Sr.",
+    "Coordinates": "47.21014171356369,-122.05084913969547",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSONNY FRICK SR"
+  },
+  {
+    "Victim Name": "Benjamin R. Sam",
+    "Coordinates": "47.26931632481979,-122.14709382885133",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nBENJAMIN R SAM"
+  },
+  {
+    "Victim Name": "Barry D. Anderson Jr. ",
+    "Coordinates": "47.25733171809828,-122.12532572763419",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nBARRY D ANDERSON JR"
+  },
+  {
+    "Victim Name": "Kenneth L. Barnes",
+    "Coordinates": "47.12356025312393,-122.05049806570304",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKENNY BARNES"
+  },
+  {
+    "Victim Name": "Patricia Snuggs",
+    "Coordinates": "47.20049576089387,-122.26393114263564",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nPATRICIA SNUGGS"
+  },
+  {
+    "Victim Name": "Aaron Lee Cook",
+    "Coordinates": "47.28055968981707,-122.2583147119814",
+    "Sign Type": "PLEASE DON\u2019T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nAARON COOK"
+  },
+  {
+    "Victim Name": "Johnathan J. Wiger",
+    "Coordinates": "47.318950147757675,-122.24475272604607",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOHATHAN J WIGER"
+  },
+  {
+    "Victim Name": "Rodney D. Farr",
+    "Coordinates": "47.21357210254829,-122.34203022180296",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nRODNEY D FARR"
+  },
+  {
+    "Victim Name": "Cesar Martinez & Marina Martinez",
+    "Coordinates": "47.341782269611166,-122.24459809559934",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCESAR MARTINEZ\nMARINA MARTINEZ"
+  },
+  {
+    "Victim Name": "Stevie Smith",
+    "Coordinates": "47.204545936122976,-122.31396757130187",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE\n STEVIE SMITH FAMILY"
+  },
+  {
+    "Victim Name": "Shawn Fairbanks",
+    "Coordinates": "47.224640776163056,-122.36379760233662",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHAWN FAIRBANKS"
+  },
+  {
+    "Victim Name": "Tristan Thompson & Joshua Thompson",
+    "Coordinates": "47.22787837541587,-122.37219369385306",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTRISTAN THOMPSON\nJOSHUA THOMPSON"
+  },
+  {
+    "Victim Name": "Jacob Alan McQuade",
+    "Coordinates": "47.21788015961102,-122.34959752359707",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJACOB ALAN MCQUADE"
+  },
+  {
+    "Victim Name": "Terry Grubham",
+    "Coordinates": "47.454892789627,-122.21587161327594",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTERRY GRUBHAM"
+  },
+  {
+    "Victim Name": "Robert Jackson & Bruce Holbert",
+    "Coordinates": "47.21089027907247,-122.33692854005133",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT JACKSON   \nBRUCE HOLBERT"
+  },
+  {
+    "Victim Name": "Jason J. Wipf",
+    "Coordinates": "47.47579889727087,-122.21483655847173",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON J. WIPF"
+  },
+  {
+    "Victim Name": "Michael Felhosi",
+    "Coordinates": "47.37746031438341,-122.02681440032093",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES ",
+    "Sponsored By Plaque": "IN MEMORY OF \n\"PIRATE\" MIKE FELHOSI"
+  },
+  {
+    "Victim Name": "Nadine P. Miller",
+    "Coordinates": "47.43448578382648,-122.06141824902268",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nNADINE P MILLER"
+  },
+  {
+    "Victim Name": "Ronald Bingham Jr.",
+    "Coordinates": "47.93122227873595,-118.98059958343953",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nRONNIE BINGHAM"
+  },
+  {
+    "Victim Name": "June Taylor",
+    "Coordinates": "47.44136059322274,-122.24560650657858",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUNE TAYLOR"
+  },
+  {
+    "Victim Name": "Jamin Dean Sovy",
+    "Coordinates": "46.24847141645204,-119.10624145701911",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAMIN DEAN SOVY"
+  },
+  {
+    "Victim Name": "Rodolfo Angulo",
+    "Coordinates": "46.25863094293599,-119.26291792099553",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nRODOLFO ANGULO"
+  },
+  {
+    "Victim Name": "Alexander Gill",
+    "Coordinates": "47.16941643421009,-117.37997052456844",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nALEX GILL"
+  },
+  {
+    "Victim Name": "Samuel Thompson",
+    "Coordinates": "46.79760773551168,-117.31472595148149",
+    "Sign Type": "PLEASE DON'T TEXT AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\nSAMUEL THOMPSON"
+  },
+  {
+    "Victim Name": "Lorissa Green",
+    "Coordinates": "47.61968523369496,-117.43287289628202",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nLORISSA GREEN"
+  },
+  {
+    "Victim Name": "Ryan Lee Stanard",
+    "Coordinates": "46.86372098311614,-117.35346978095794",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nRYAN LEE STANARD"
+  },
+  {
+    "Victim Name": "Grace Horn",
+    "Coordinates": "48.23096098723276,-122.73961453745909",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nGRACE HORN"
+  },
+  {
+    "Victim Name": "Jared Thomas",
+    "Coordinates": "47.63042093360619,-121.99695970073923",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJARED THOMAS "
+  },
+  {
+    "Victim Name": "Kermit Allen",
+    "Coordinates": "47.72275350543588,-121.98614101166271",
+    "Sign Type": "PLEASE WATCH FOR PEDESTRIANS",
+    "Sponsored By Plaque": "IN MEMORY OF \n\"THE KERMINATOR\" KERMIT ALLEN"
+  },
+  {
+    "Victim Name": "Billy Rhynalds",
+    "Coordinates": "47.59822141382982,-121.91379054047077",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBILLY RHYNALD WSDOT \nJUNE 11, 1945-JAN 16, 2011"
+  },
+  {
+    "Victim Name": "Destiny Mae Salmonson",
+    "Coordinates": "47.60312190903258,-121.91331159921003",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDESTINY MAE SALMONSON AGE 5"
+  },
+  {
+    "Victim Name": "Aaron Harvey",
+    "Coordinates": "47.848752545770125,-121.97089126991465",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nAARON HARVEY"
+  },
+  {
+    "Victim Name": "Michael Bright & Lee Ann Brown & Lisa Linn Brown ",
+    "Coordinates": "47.6910041115749,-121.94646183575782",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL BRIGHT\nLEE ANN BROWN\nLISA LINN BROWN"
+  },
+  {
+    "Victim Name": "Walter Corman & Kyle Hutchinson",
+    "Coordinates": "47.78735390222294,-117.32630690053908",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nWALTER CORMAN\nKYLE HUTCHINSON"
+  },
+  {
+    "Victim Name": "Amy Varrelman",
+    "Coordinates": "46.44990679321411,-119.50505818241457",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nAMY S VARRELMAN"
+  },
+  {
+    "Victim Name": "Sami Semmern",
+    "Coordinates": "46.29402357717532,-119.30410302815292",
+    "Sign Type": "PLEASE DON\u2019T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSAMI SEMMERN"
+  },
+  {
+    "Victim Name": "Doren R. Thomas Sr.",
+    "Coordinates": "46.83067662701321,-119.93449955004962",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDOREN R THOMAS SR"
+  },
+  {
+    "Victim Name": "Billy Don Randolph",
+    "Coordinates": "46.98265652530173,-119.27442797893055",
+    "Sign Type": "PLEASE DON'T DRINK AND RIDE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBILLY DON RANDOLPH"
+  },
+  {
+    "Victim Name": "Brandon Scott Clements,        Stacy Morrow, Ryan Sorensen",
+    "Coordinates": "46.73851733123287,-117.06495150972847",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRANDON CLEMENTS\nRYAN SORENSEN\nSTACY MORROW                                           "
+  },
+  {
+    "Victim Name": "John Polignoni",
+    "Coordinates": "47.7139856727449,-117.09255132678274",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOHN POLIGNONI"
+  },
+  {
+    "Victim Name": "Wyatt Williams-Herres",
+    "Coordinates": "47.67205457032323,-117.34359961390525",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nWYATT WILLIAMS-HERRES"
+  },
+  {
+    "Victim Name": "Joe Pat Ryan",
+    "Coordinates": "47.69577344088114,-117.19497468265622",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOE PAT RYAN"
+  },
+  {
+    "Victim Name": "Desiree Hope Clayburn",
+    "Coordinates": "47.732379065223164,-117.5043307202758",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDESIREE HOPE CLAYBURN"
+  },
+  {
+    "Victim Name": "Marvin Jansen",
+    "Coordinates": "47.43536873121917,-122.86659148917185",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nMARVIN JANSEN"
+  },
+  {
+    "Victim Name": "Kaitlin Taylor",
+    "Coordinates": "47.38185711314592,-122.65169040680269",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKAITLIN V TAYLOR"
+  },
+  {
+    "Victim Name": "Rodger D. Hickel",
+    "Coordinates": "47.37937796055554,-122.6241348390368",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFAMILY OF RODGER D HICKEL"
+  },
+  {
+    "Victim Name": "David Doolittle",
+    "Coordinates": "47.380608388867714,-122.69593307091357",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nDAVID DOOLITTLE FAMILY"
+  },
+  {
+    "Victim Name": "Sponsored By The Louis De Santis Family",
+    "Coordinates": "47.60926856323627,-122.62878633668427",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nLOUIS DE SANTIS FAMILY"
+  },
+  {
+    "Victim Name": "Robert C. Johnson",
+    "Coordinates": "47.66408334063982,-122.68381530991131",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT C JOHNSON"
+  },
+  {
+    "Victim Name": "Jenna R Carp",
+    "Coordinates": "47.707800249049434,-122.58506614099062",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJENNA R CARP"
+  },
+  {
+    "Victim Name": "Marcia Dumford & Maureen Kline",
+    "Coordinates": "47.70606027278681,-122.59770232190743",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMARCIA DUMFORD\nMAUREEN KLINE"
+  },
+  {
+    "Victim Name": "Dennis M. Dick",
+    "Coordinates": "47.717554609100645,-122.6182537446772",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDENNIS M DICK"
+  },
+  {
+    "Victim Name": "Robert Dean Butler",
+    "Coordinates": "47.7693175280408,-122.60978221001629",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT DEAN BUTLER"
+  },
+  {
+    "Victim Name": "Robert \"Bob\" Lattin",
+    "Coordinates": "48.82285202475612,-118.1705777568352",
+    "Sign Type": "PLEASE WATCH FOR PEDESTRIANS",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT \"BOB\" LATTIN FIRE COMMISSIONER"
+  },
+  {
+    "Victim Name": "Randy Ross",
+    "Coordinates": "47.99369173765865,-117.56265457494976",
+    "Sign Type": "PLEASE RIDE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nRANDY ROSS"
+  },
+  {
+    "Victim Name": "Erik Bruhjell",
+    "Coordinates": "47.99369173765865,-117.56265457494976",
+    "Sign Type": "PLEASE DON'T DRUG IN DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nERIK BRUHJELL"
+  },
+  {
+    "Victim Name": "Bailey A Roach",
+    "Coordinates": "47.76591930850746,-117.40565065357308",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nBAILEY A ROACH"
+  },
+  {
+    "Victim Name": "Trent Skidmore",
+    "Coordinates": "46.35371929985552,-119.08763827716496",
+    "Sign Type": "PLEASE DON\"T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTRENT SKIDMORE"
+  },
+  {
+    "Victim Name": "Willaim E. Gilk Jr. ",
+    "Coordinates": "48.016029417959786,-117.5871562744083",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nWILLIAM E GILK JR"
+  },
+  {
+    "Victim Name": "Jesse Aaron Cox",
+    "Coordinates": "47.819924221829076,-117.41199531037245",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJESSE AARON COX"
+  },
+  {
+    "Victim Name": "Lori M. Bacon",
+    "Coordinates": "47.7590688532995,-117.40813562808965",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nLORI M BACON"
+  },
+  {
+    "Victim Name": "Trent Skidmore",
+    "Coordinates": "46.35371929985552,-119.08763827716496",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTRENT SKIDMORE"
+  },
+  {
+    "Victim Name": "Jay R. Hill",
+    "Coordinates": "46.366070839043125,-123.81123528771036",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAY R HILL"
+  },
+  {
+    "Victim Name": "Taylor S. Wilson",
+    "Coordinates": "47.76344130691178,-122.18582631496302",
+    "Sign Type": "SEAT BELTS SAVES LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nTAYLOR S. WILSON"
+  },
+  {
+    "Victim Name": "Jesse Ludington",
+    "Coordinates": "47.79099089022116,-122.20628866635106",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nJESSE LUDINGTON"
+  },
+  {
+    "Victim Name": "Sidney \"Sid\" Jahn",
+    "Coordinates": "47.69259933092964,-122.18077944426352",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nSIDNEY \"SID\" JAHN"
+  },
+  {
+    "Victim Name": "Yvonne F Bruan",
+    "Coordinates": "47.465251357785014,-122.24082865486238",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nYVONNE F. BRUAN"
+  },
+  {
+    "Victim Name": "Joseph Lee Gibson Jr",
+    "Coordinates": "47.469606845401174,-122.20640765741312",
+    "Sign Type": "SEAT BELTS SAVE LIVES",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOSEPH LEE GIBSON JR"
+  },
+  {
+    "Victim Name": "Ellen L. Roberts-Ross",
+    "Coordinates": "47.67197772944751,-122.18629394709298",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nELLEN ROBERTS-ROSS"
+  },
+  {
+    "Victim Name": "Stephen Lacey",
+    "Coordinates": "47.678134236046986,-122.184366216486",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSTEPHEN LACEY"
+  },
+  {
+    "Victim Name": "Kollin Nielson",
+    "Coordinates": "47.69259933092964,-122.18077944426352",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nKOLLIN NIELSON"
+  },
+  {
+    "Victim Name": "Geoff Fraser",
+    "Coordinates": "47.46174549675083,-122.25379654425629",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGEOFF FRASER"
+  },
+  {
+    "Victim Name": "Justin Relethford",
+    "Coordinates": "47.19381050598559,-121.99844278924348",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nFAMILY OF JUSTIN RELETHFORD"
+  },
+  {
+    "Victim Name": "David N. Maynard Jr.",
+    "Coordinates": "47.19363820206988,-122.20112894911635",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nDAVID MAYNARD JR"
+  },
+  {
+    "Victim Name": "Kelsi Cook",
+    "Coordinates": "47.11072614108893,-121.59992309162828",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKELSI COOK"
+  },
+  {
+    "Victim Name": "Shane Wyrsch",
+    "Coordinates": "47.16220355252892,-122.08040182762711",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nOFFICER SHANE A WYRSCH"
+  },
+  {
+    "Victim Name": "Michael J. Petersen",
+    "Coordinates": "47.15810047100414,-122.03884457038124",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL J PETERSEN"
+  },
+  {
+    "Victim Name": "Harry Lawson",
+    "Coordinates": "47.1631846597478,-121.89126296473458",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nHARRY LAWSON"
+  },
+  {
+    "Victim Name": "Bobby Hontz",
+    "Coordinates": "47.168320944240605,-121.8109479260566",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBOBBY HONTZ"
+  },
+  {
+    "Victim Name": "Briana Schwesinger",
+    "Coordinates": "45.779839666537555,-122.61822287338568",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRIANA SCHWESINGER"
+  },
+  {
+    "Victim Name": "Tatyana Tupikova",
+    "Coordinates": "45.773341474938114,-122.5473855150142",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTATYANA TUPIKOVA"
+  },
+  {
+    "Victim Name": "Nikki Gainer & Jordan Gainer",
+    "Coordinates": "45.70906596035656,-122.55262974124773",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nNIKKI GAINER\nJORDAN GAINER"
+  },
+  {
+    "Victim Name": "James Sizemore",
+    "Coordinates": "46.45739828315589,-122.8428719937596",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAMES SIZEMORE"
+  },
+  {
+    "Victim Name": "Julia Regino",
+    "Coordinates": "46.472561431204404,-122.87219635877807",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJULIA REGINO"
+  },
+  {
+    "Victim Name": "Ken Brackett",
+    "Coordinates": "46.906138709041436,-122.65526396262055",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKEN BRACKETT"
+  },
+  {
+    "Victim Name": "Rosemary Berry",
+    "Coordinates": "47.018924328447426,-122.51179552438605",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nROSEMARY BERRY"
+  },
+  {
+    "Victim Name": "Alisa L. Kerle",
+    "Coordinates": "46.96172829312078,-122.55236665109514",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nALISA L KERLE"
+  },
+  {
+    "Victim Name": "Greg Meyers",
+    "Coordinates": "47.03108534054589,-122.4962043394437",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGREG MEYERS"
+  },
+  {
+    "Victim Name": "Paul Baldwin",
+    "Coordinates": "46.97157875419738,-122.54947788644073",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nPAUL BALDWIN"
+  },
+  {
+    "Victim Name": "Dillon Ruffecorn",
+    "Coordinates": "47.532222516431865,-122.33448242669776",
+    "Sign Type": "PLEASE WATCH FOR PEDESTRIANS",
+    "Sponsored By Plaque": " IN MEMORY OF\n DILLON RUFFECORN"
+  },
+  {
+    "Victim Name": "Chris McIntyre",
+    "Coordinates": "47.006801850369875,-122.6840784462568",
+    "Sign Type": "PLEASE DON'T DRUG AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCHRIS MCINTYRE"
+  },
+  {
+    "Victim Name": "Donna L. Akridge",
+    "Coordinates": "47.158006843337546,-122.35714953558869",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDONNA L AKRIDGE"
+  },
+  {
+    "Victim Name": "Rogelio Shane Darrin  Sapunto",
+    "Coordinates": "47.181370246419455,-122.28514302059398",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nROGELIO SHANE\nDARRIN SAPUNTO"
+  },
+  {
+    "Victim Name": "Peter Adams",
+    "Coordinates": "47.15792574410022,-122.33471989401042",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nPETER ADAMS"
+  },
+  {
+    "Victim Name": "Jason Michael Kitchen",
+    "Coordinates": "47.15798784093148,-122.35672809367966",
+    "Sign Type": "CLICK IT OR TICKET",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON MICHAEL KITCHEN"
+  },
+  {
+    "Victim Name": "Gary Barkus & Sarah Barkus",
+    "Coordinates": "47.15891249730704,-122.3042478613831",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nGARY BARKUS\nSARAH BARKUS"
+  },
+  {
+    "Victim Name": "Toby Riipinen & David G. Cantwell",
+    "Coordinates": "47.158006843337546,-122.35714953558869",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTOBY RIPINEN\nDAVID G CANTWELL"
+  },
+  {
+    "Victim Name": "Nyran K Tran-Ly",
+    "Coordinates": "47.454439437930134,-122.20481769477675",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nNYRAN K TRAN-LY"
+  },
+  {
+    "Victim Name": "Steven Hanna",
+    "Coordinates": "47.3579835265194,-122.04762923335144",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSTEVEN HANNA"
+  },
+  {
+    "Victim Name": "Amanda Berman",
+    "Coordinates": "47.384407183887355,-122.27731685223108",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nAMANDA BERMAN"
+  },
+  {
+    "Victim Name": "Eric B. Olson",
+    "Coordinates": "47.35808958538931,-122.11682804232032",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nERIC B. OLSON"
+  },
+  {
+    "Victim Name": "Alex Bishop",
+    "Coordinates": "47.365172676710124,-122.18170385768052",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nALEX BISHOP"
+  },
+  {
+    "Victim Name": "Anthony Perez & Myron Singh",
+    "Coordinates": "47.46139290255882,-122.26537094415566",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nANTHONY PEREZ\nMYRON SINGH"
+  },
+  {
+    "Victim Name": "Justin Lee Graff",
+    "Coordinates": "47.46987254751622,-122.32443615852692",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nJUSTIN LEE GRAFF"
+  },
+  {
+    "Victim Name": "Phillip Curtis Thomas",
+    "Coordinates": "47.59030223379531,-122.32911211775016",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nPHILLP CURTIS THOMAS"
+  },
+  {
+    "Victim Name": "Brian J. Morgan & Steven \"Scuba\" Torres & Christopher \"Krys\" Anderson",
+    "Coordinates": "47.84377654049533,-122.01294383534093",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRIAN J. MORGAN\nSTEVEN \"SCUBA\" TORRES\nCHRISTOPHER \"KRYS\" ANDERSON"
+  },
+  {
+    "Victim Name": "James Malvern ",
+    "Coordinates": "47.806931468768745,-122.1097038470325",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": " IN MEMORY OF\n JAMES MALVERN"
+  },
+  {
+    "Victim Name": "Andy Enevoldsen",
+    "Coordinates": "47.794596945941656,-122.13457808209334",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nANDY ENEVOLDSEN"
+  },
+  {
+    "Victim Name": "J.W. Draugh & Sylvia Ann Goldblatt",
+    "Coordinates": "47.75133762812269,-122.21638361303948",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJ.W. DRAUGH AND SYLVIA ANN GOLDBLATT"
+  },
+  {
+    "Victim Name": "Robert \u2018Pef\u2019 Peffley",
+    "Coordinates": "47.826007737208776,-122.25064975208277",
+    "Sign Type": "PLEASE WATCH FOR MOTORCYCLES",
+    "Sponsored By Plaque": "IN MEMORY OF \nROBERT PEF PEFFLEY"
+  },
+  {
+    "Victim Name": "Shawn Poolman",
+    "Coordinates": "48.50077345197533,-122.35737820813281",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHAWN POOLMAN"
+  },
+  {
+    "Victim Name": "Sharon Gamble & Kenneth Weikle",
+    "Coordinates": "47.98524028667572,-122.39055230312067",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nSHARON GAMBLE     \nKENNETH WEIKLE"
+  },
+  {
+    "Victim Name": "Taylor Lane Daniels",
+    "Coordinates": "48.015844846158274,-122.54632007370544",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nTAYLOR LANE DANIELS "
+  },
+  {
+    "Victim Name": "Tim Keil",
+    "Coordinates": "48.00234325872329,-122.42428518674336",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nTIM KEIL"
+  },
+  {
+    "Victim Name": "Bryan Bakos",
+    "Coordinates": "48.01253412000901,-122.54216235724793",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBRYAN BAKOS"
+  },
+  {
+    "Victim Name": "Matt Harry",
+    "Coordinates": "47.923174818045425,-122.22936113664957",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMATT HARRY"
+  },
+  {
+    "Victim Name": "Matthew Hamilton",
+    "Coordinates": "47.858186636655184,-122.2187377040543",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nMATTHEW HAMILTON"
+  },
+  {
+    "Victim Name": "Reed Baldwin",
+    "Coordinates": "47.84168422762527,-122.21558055147554",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": " IN MEMORY OF\n REED \"REDFELLOW\" BALDWIN"
+  },
+  {
+    "Victim Name": "Quincy Tigner",
+    "Coordinates": "47.84082936697459,-122.21548300959996",
+    "Sign Type": "STAY ALERT DRIVE SAFE",
+    "Sponsored By Plaque": "IN MEMORY OF \nQUINCY TIGNER"
+  },
+  {
+    "Victim Name": "Zoey Ensey",
+    "Coordinates": "48.208875400776115,-122.11698545391451",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nZOEY ENSEY"
+  },
+  {
+    "Victim Name": "James Cole Jr.",
+    "Coordinates": "48.21889466734806,-122.10751131568084",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJAMES COLE JR"
+  },
+  {
+    "Victim Name": "David Swearengin",
+    "Coordinates": "48.24754841719465,-122.04176201967006",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDAVID SWEARENGIN"
+  },
+  {
+    "Victim Name": "John R. Schalow",
+    "Coordinates": "48.27249317832578,-121.66535789187564",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJOHN R SCHALOW"
+  },
+  {
+    "Victim Name": "Earl C Becker Jr.",
+    "Coordinates": "48.157067025286885,-122.24629967092419",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nEARL C BECKER JR"
+  },
+  {
+    "Victim Name": "Corey Keefe",
+    "Coordinates": "48.442837784288564,-122.40098807600741",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCOREY KEEFE"
+  },
+  {
+    "Victim Name": "Cameron Tessin",
+    "Coordinates": "48.443830999011475,-122.42607518101981",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nCAMERON TESSIN"
+  },
+  {
+    "Victim Name": "Bill Johnson",
+    "Coordinates": "48.417487688587855,-122.33330041540384",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nBILL JOHNSON"
+  },
+  {
+    "Victim Name": "Brox Browning",
+    "Coordinates": "48.83987168453891,-122.48596322875797",
+    "Sign Type": "PLEASE DRIVE SAFELY ",
+    "Sponsored By Plaque": "IN MEMORY OF \nBROX BROWNING"
+  },
+  {
+    "Victim Name": "Kyle Sonnen",
+    "Coordinates": "48.91432314574237,-122.00407575987876",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKYLE SONNEN"
+  },
+  {
+    "Victim Name": "Kourtney Cadle",
+    "Coordinates": "48.82839536393892,-122.22249046170934",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nKOURTNEY J CADLE"
+  },
+  {
+    "Victim Name": "Frank Clark Jr.",
+    "Coordinates": "48.821716382249555,-122.21045730112411",
+    "Sign Type": "PLEASE RIDE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nFRANK CLARK JR"
+  },
+  {
+    "Victim Name": "Sarah F. Baisden",
+    "Coordinates": "48.79912230977603,-122.40734409438377",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nSARAH F BAISDEN"
+  },
+  {
+    "Victim Name": "Doris E. Phillips",
+    "Coordinates": "48.83501651841734,-122.30212359732799",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nDORIS E PHILLIPS"
+  },
+  {
+    "Victim Name": "Katy Rose Compton",
+    "Coordinates": "48.830504863127196,-122.23298427185946",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF\nKATY ROSE COMPTON"
+  },
+  {
+    "Victim Name": "Douglas O. Benton",
+    "Coordinates": "48.99308221394158,-122.73494223247292",
+    "Sign Type": "PLEASE DRIVE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nDOUGLAS O BENTON"
+  },
+  {
+    "Victim Name": "Jason L Schuyleman",
+    "Coordinates": "48.913875463957254,-122.35821751645699",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nJASON \"BONE\" SCHUYLEMAN"
+  },
+  {
+    "Victim Name": "Dominic Joseph Swope",
+    "Coordinates": "48.891719496751975,-122.45478573980921",
+    "Sign Type": "PLEASE RIDE SAFELY",
+    "Sponsored By Plaque": "IN MEMORY OF \nDOMINIC JOSEPH SWOPE"
+  },
+  {
+    "Victim Name": "Michael Jamison",
+    "Coordinates": "46.75576525710698,-122.13046426175241",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "IN MEMORY OF \nMICHAEL R JAMISON"
+  },
+  {
+    "Victim Name": "Bonnie Marie Stewart",
+    "Coordinates": "46.679399586995345,-120.49470522008906",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE ",
+    "Sponsored By Plaque": "IN MEMORY OF \nBONNIE MARIE STEWART"
+  },
+  {
+    "Victim Name": "Mark Peterson/Jim Rodgers",
+    "Coordinates": "47.511866807030515,-122.08151730407221",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE \nRODGERS FAMILY"
+  },
+  {
+    "Victim Name": "Mark Peterson/Jim Rodgers",
+    "Coordinates": "47.511866807030515,-122.08151730407221",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY THE\n PETERSON FAMILY"
+  },
+  {
+    "Victim Name": "Jacqueline Campos",
+    "Coordinates": "47.842896073037366,-120.09990033459056",
+    "Sign Type": "PLEASE DON'T DRINK AND DRIVE",
+    "Sponsored By Plaque": "SPONSORED BY \nFRIENDS AND FAMILY OF JACQUELINE CAMPOS"
+  }
+        ];
+
+        data.forEach((memorial, index) => {
+            if (memorial.Coordinates && memorial.Coordinates.includes(',')) {
+                const [lat, lng] = memorial.Coordinates.split(',').map(Number);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    const marker = L.marker([lat, lng]).addTo(map);
+                    
+                    marker.bindTooltip(`
+                        <div class="tooltip">
+                            <strong>${memorial['Victim Name']}</strong><br>
+                            ${memorial['Sign Type']}<br>
+                            <em>${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</em>
+                        </div>
+                    `, {permanent: false, direction: 'top'});
+                    
+                    marker.on('click', () => {
+                        map.setView([lat, lng], 15);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
