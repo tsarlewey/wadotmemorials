@@ -95,7 +95,7 @@
         <button id="contactBtn" @click="contactOpen = !contactOpen">Contact</button>
         <div id="overlay" x-show="contactOpen" @click="contactOpen = false" x-transition.opacity></div>
         <div id="contactPopup" x-show="contactOpen" x-transition.opacity>
-            <strong>Contact me for anything related to this data set and website.</strong><br>
+            <strong>Contact JT for anything related to this data set and website.</strong><br>
             <strong>Email:</strong> jt@jtlewey.com
         </div>
     </div>
@@ -249,7 +249,7 @@
                                                        ${memorial['Sponsored By Plaque'].replace(/\n/g, '<br>')}</p>
                                                     <button class="learn-more-btn" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(memorial['Victim Name'])}+washington+state+memorial', '_blank')">Learn More</button>
                                                     <button class="learn-more-btn" onclick="document.querySelector('#homeBtn').click()">Return to Map Overview</button>
-                                                    <button class="learn-more-btn" onclick="document.querySelector('#contactBtn').click()">Contact</button>
+                                                    <button class="learn-more-btn" onclick="document.querySelector('#contactBtn').click()">Something Wrong?</button>
                                                 </div>
                                             </div>
                                         `)
