@@ -1,7 +1,7 @@
 import csv
 import json
 
-with open('WDOT Memorial - Sheet2.csv', 'r') as csv_file:
+with open('WDOT Memorial Info.csv', 'r') as csv_file:
     reader = csv.DictReader(csv_file)
     data = list(reader)
 
